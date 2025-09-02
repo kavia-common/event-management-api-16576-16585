@@ -4,6 +4,7 @@ import com.example.eventmanagementbackend.dto.EventRequest;
 import com.example.eventmanagementbackend.exception.EventNotFoundException;
 import com.example.eventmanagementbackend.exception.InvalidEventTimeException;
 import com.example.eventmanagementbackend.model.Event;
+import com.example.eventmanagementbackend.model.EventCategory;
 import com.example.eventmanagementbackend.repository.EventRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +58,14 @@ public class EventService {
         return repository.findAll();
     }
 
+    // PUBLIC_INTERFACE
+    public List<Event> listByCategory(EventCategory category) {
+        if (category == null) {
+            return listAll();
+        }
+        return repository.findByCategory(category);
+    }
+
     private void validateTimes(EventRequest request) {
         if (request.getStartTime() != null && request.getEndTime() != null) {
             if (request.getEndTime().isBefore(request.getStartTime())
@@ -72,5 +81,11 @@ public class EventService {
         target.setStartTime(request.getStartTime());
         target.setEndTime(request.getEndTime());
         target.setLocation(request.getLocation());
+        // apply category with default fallback
+        if (request.getCategory() != null) {
+            target.setCategory(request.getCategory());
+        } else if (target.getCategory() == null) {
+            target.setCategory(EventCategory.OTHER);
+        }
     }
 }

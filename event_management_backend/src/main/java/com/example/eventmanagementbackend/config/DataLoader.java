@@ -1,6 +1,7 @@
 package com.example.eventmanagementbackend.config;
 
 import com.example.eventmanagementbackend.model.Event;
+import com.example.eventmanagementbackend.model.EventCategory;
 import com.example.eventmanagementbackend.repository.EventRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -18,14 +19,19 @@ public class DataLoader {
     CommandLineRunner init(EventRepository repository) {
         return args -> {
             if (repository.count() == 0) {
-                repository.save(new Event(null, "Kickoff Meeting", "Project kickoff",
+                Event kickoff = new Event(null, "Kickoff Meeting", "Project kickoff",
                         OffsetDateTime.now().plusDays(1),
                         OffsetDateTime.now().plusDays(1).plusHours(1),
-                        "Room 101"));
-                repository.save(new Event(null, "Demo Day", "Product demo to stakeholders",
+                        "Room 101",
+                        EventCategory.CORPORATE);
+                repository.save(kickoff);
+
+                Event demoDay = new Event(null, "Demo Day", "Product demo to stakeholders",
                         OffsetDateTime.now().plusDays(7),
                         OffsetDateTime.now().plusDays(7).plusHours(2),
-                        "Auditorium"));
+                        "Auditorium",
+                        EventCategory.CONFERENCE);
+                repository.save(demoDay);
             }
         };
     }

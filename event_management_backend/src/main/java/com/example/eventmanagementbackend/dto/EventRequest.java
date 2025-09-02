@@ -1,5 +1,6 @@
 package com.example.eventmanagementbackend.dto;
 
+import com.example.eventmanagementbackend.model.EventCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +31,16 @@ public class EventRequest {
     @NotBlank(message = "Location is required")
     private String location;
 
+    @Schema(description = "Event category", example = "WORKSHOP", requiredMode = Schema.RequiredMode.NOT_REQUIRED, allowableValues = {"WORKSHOP","CONCERT","CORPORATE","MEETUP","CONFERENCE","OTHER"})
+    private EventCategory category = EventCategory.OTHER;
+
+    /**
+     * Optional role field for request-body based authorization demonstration.
+     * Alternatively, clients can pass header X-User-Role; controller will prioritize header when present.
+     */
+    @Schema(description = "Caller role for simple mock authorization. Allowed: ADMIN, ORGANIZER, USER", example = "ADMIN")
+    private String userRole;
+
     public EventRequest() {}
 
     public String getName() {
@@ -52,6 +63,14 @@ public class EventRequest {
         return location;
     }
 
+    public EventCategory getCategory() {
+        return category;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -70,5 +89,13 @@ public class EventRequest {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setCategory(EventCategory category) {
+        this.category = category;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 }

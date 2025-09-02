@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Basic informational endpoints and Swagger redirect.
+ * Note: Business endpoints are under /api/events with optional role checks via X-User-Role header.
  */
 @RestController
 @Tag(name = "Hello Controller", description = "Basic endpoints for eventmanagementbackend")

@@ -1,7 +1,6 @@
 package com.example.eventmanagementbackend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -37,6 +36,13 @@ public class Event {
     @Column(nullable = false)
     private String location;
 
+    /**
+     * Category of the event. Stored as STRING for readability.
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EventCategory category = EventCategory.OTHER;
+
     public Event() {
     }
 
@@ -47,6 +53,17 @@ public class Event {
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
+        this.category = EventCategory.OTHER;
+    }
+
+    public Event(Long id, String name, String description, OffsetDateTime startTime, OffsetDateTime endTime, String location, EventCategory category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.location = location;
+        this.category = category == null ? EventCategory.OTHER : category;
     }
 
     // Getters and setters
@@ -75,6 +92,10 @@ public class Event {
         return location;
     }
 
+    public EventCategory getCategory() {
+        return category;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -97,5 +118,9 @@ public class Event {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setCategory(EventCategory category) {
+        this.category = category == null ? EventCategory.OTHER : category;
     }
 }

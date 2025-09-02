@@ -12,7 +12,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
         info = @Info(
                 title = "Event Management API",
                 version = "1.0.0",
-                description = "REST API for creating, updating, deleting, and listing events.",
+                description = "REST API for creating, updating, deleting, and listing events. " +
+                        "RBAC (mock): use header X-User-Role=ADMIN|ORGANIZER for create/update/delete. " +
+                        "Categories supported for filtering: WORKSHOP, CONCERT, CORPORATE, MEETUP, CONFERENCE, OTHER.",
                 contact = @Contact(name = "Event API Team", email = "support@example.com")
         ),
         tags = {
